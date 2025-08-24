@@ -1,29 +1,36 @@
 package com.mizzalini;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInterface {
 
-    public void welcomeMessage() {
-        Scanner sc = new Scanner(System.in);
-
-        print("WELCOME TO THE WORDLE SOLVER!");
-        print("I'm here to help you solve your daily Wordle puzzle. Just tell me your guesses and the results, and I'll suggest the next best word.");
-
-        print("Type 'i' if you need instructions. Leave it blank to get your next best word.");
-        
-        switch (sc.next()) {
-            case "i":
-                instructions(sc);
-                break;
-            default:
-                print("GAME STARTED");
+    public void startSolver() {
+        printWelcomeMessage();
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                printWelcomeMessage();
+                try {
+                    String input = scanner.nextLine().trim();
+                    if (input.equalsIgnoreCase("i")) {
+                        showInstructions(scanner);
+                    }
+                    startGame();
+                    break;
+                } catch (InputMismatchException e) {
+                    print("That's not a valid input. Please try again.");
+                }
+            }
         }
-
-        sc.close();
     }
 
-    private void instructions(Scanner sc) {
+    private void printWelcomeMessage() {
+        print("WELCOME TO THE WORDLE SOLVER!");
+        print("I'm here to help you solve your daily Wordle puzzle. Just tell me your guesses and the results, and I'll suggest the next best word.");
+        print("Type 'i' for instructions or press Enter to start the game.");
+    }
+
+    private void showInstructions(Scanner scanner) {
         print("HOW TO USE ME:");
         print("- For your first guess, leave the input BLANK. I'll suggest a starting word.");
         print("- Otherwise, give me your previous words one at a time. I'll then ask for the results using a simple code:");
@@ -34,12 +41,18 @@ public class UserInterface {
         print("For example, if you guessed RAISE and the 'A' was yellow, the 'I' was green, and the rest were grey, you would enter: 'bygbb'.");
         print("Type 'OKAY' to begin!");
 
-        // TODO: don't allow user to just press ENTER
+        waitForUserToBegin(scanner);
+    }
 
-        while (!(sc.next().toUpperCase().equals("OKAY"))) {
+    private void waitForUserToBegin(Scanner scanner) {
+        String input;
+        do {
             print("Type 'OKAY' to begin!");
-        }
+            input = scanner.nextLine().trim();
+        } while (!input.equalsIgnoreCase("OKAY"));
+    }
 
+    private void startGame() {
         print("GAME STARTED");
     }
 
