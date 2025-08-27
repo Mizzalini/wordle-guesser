@@ -4,53 +4,73 @@ import java.util.Scanner;
 
 public class UserInterface {
 
-    public void welcomePlayer() {
-        try (Scanner scanner = new Scanner(System.in)) {
-            while (true) {
-                printWelcomeMessage();
+    private final Scanner scanner;
 
-                String input = scanner.nextLine().trim();
-                if (input.equalsIgnoreCase("i")) {
-                        showInstructions(scanner);
-                    }
-                break;
+    public UserInterface(Scanner scanner) {
+        this.scanner = scanner;
+    }
+
+    public void welcomePlayer() {
+        printWelcomeMessage();
+        String input = scanner.nextLine().trim();
+        if (input.equalsIgnoreCase("i")) {
+                showInstructions();
+            }
+    }
+
+    public int getNumberOfGuesses() {
+        int numberOfGuesses = 0;
+
+        while (true) {
+            print("How many guesses have you made already?");
+            String input = scanner.nextLine().trim();
+            
+            try {
+                numberOfGuesses = Integer.parseInt(input);
+
+                if (numberOfGuesses < 0 || numberOfGuesses > 4) {
+                    print("You must enter a valid number between 0 and 4 inclusive.");
+                    print("Please try again");
+                } else {
+                    break;
+                }
+            } catch (NumberFormatException e) {
+                print("You must enter a valid number between 0 and 4 inclusive.");
+                print("Please try again");
             }
         }
+
+        return numberOfGuesses;
+    }
+
+    public void print(String message) {
+        System.out.println(message);
+    }
+
+    public void print() {
+        System.out.println();
     }
 
     private void printWelcomeMessage() {
         print("WELCOME TO THE WORDLE SOLVER!");
-        print("I'm here to help you solve your daily Wordle puzzle. Just tell me your guesses and the results, and I'll suggest the next best word.");
-        print("Type 'i' for instructions or press Enter to start the game.");
+        print("I'll help you solve your daily Wordle.");
+        print("Type 'i' for instructions or press Enter to start.");
     }
 
-    private void showInstructions(Scanner scanner) {
+    private void showInstructions() {
         print("HOW TO USE ME:");
-        print("- For your first guess, leave the input BLANK. I'll suggest a starting word.");
-        print("- Otherwise, give me your previous words one at a time. I'll then ask for the results using a simple code:");
-        print("    - 'g' is for GREEN.");
-        print("    - 'y' is for YELLOW.");
-        print("    - 'b' is for BLACK.");
-        print();
-        print("For example, if you guessed RAISE and the 'A' was yellow, the 'I' was green, and the rest were grey, you would enter: 'bygbb'.");
-
-        waitForUserToBegin(scanner);
+        print("- First guess: leave blank, I'll suggest a starting word.");
+        print("- Then enter your guess + feedback (g=green, y=yellow, b=black).");
+        print("Example: 'RAISE' -> feedback 'bygbb'");
+        waitForUserToBegin();
     }
 
-    private void waitForUserToBegin(Scanner scanner) {
+    private void waitForUserToBegin() {
         String input;
         do {
             print("Type 'OKAY' to begin!");
             input = scanner.nextLine().trim();
         } while (!input.equalsIgnoreCase("OKAY"));
-    }
-
-    private void print(String message) {
-        System.out.println(message);
-    }
-
-    private void print() {
-        System.out.println();
     }
 }
 
