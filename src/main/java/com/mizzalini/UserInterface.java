@@ -2,25 +2,41 @@ package com.mizzalini;
 
 import java.util.Scanner;
 
+/**
+ * Handles all input and output between the player and the game.
+ */
 public class UserInterface {
 
     private final Scanner scanner;
 
+    /**
+     * Constructs a new {@code UserInterface} with a given {@link Scanner}.
+     * @param scanner
+     */
     public UserInterface(Scanner scanner) {
         this.scanner = scanner;
     }
 
+    /**
+     * Displays the welcome message to the player.
+     */
     public void welcomePlayer() {
         printWelcomeMessage();
+
         String input = scanner.nextLine().trim();
         if (input.equalsIgnoreCase("i")) {
                 showInstructions();
             }
     }
 
+    /**
+     * Prompts the player to enter the number of guesses already made.
+     * 
+     * @return the number of guesses already made by the user
+     */
     public int getNumberOfGuesses() {
         while (true) {
-            print("How many guesses have you made already? (0–4)");
+            print("How many guesses have you made already? (0-4)");
 
             String input = scanner.nextLine().trim();
             try {
