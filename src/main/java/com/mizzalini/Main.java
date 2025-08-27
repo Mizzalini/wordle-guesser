@@ -2,8 +2,9 @@ package com.mizzalini;
 
 public class Main {
     public static void main(String[] args) {
-        UserInterface ui = new UserInterface();
+        Game game = new Game();
 
-        ui.startSolver();
+        game.welcomePlayer();
+        game.startGame();
     }
 }

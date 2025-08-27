@@ -1,25 +1,19 @@
 package com.mizzalini;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class UserInterface {
 
-    public void startSolver() {
-        printWelcomeMessage();
+    public void welcomePlayer() {
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 printWelcomeMessage();
-                try {
-                    String input = scanner.nextLine().trim();
-                    if (input.equalsIgnoreCase("i")) {
+
+                String input = scanner.nextLine().trim();
+                if (input.equalsIgnoreCase("i")) {
                         showInstructions(scanner);
                     }
-                    startGame();
-                    break;
-                } catch (InputMismatchException e) {
-                    print("That's not a valid input. Please try again.");
-                }
+                break;
             }
         }
     }
@@ -39,7 +33,6 @@ public class UserInterface {
         print("    - 'b' is for BLACK.");
         print();
         print("For example, if you guessed RAISE and the 'A' was yellow, the 'I' was green, and the rest were grey, you would enter: 'bygbb'.");
-        print("Type 'OKAY' to begin!");
 
         waitForUserToBegin(scanner);
     }
@@ -50,10 +43,6 @@ public class UserInterface {
             print("Type 'OKAY' to begin!");
             input = scanner.nextLine().trim();
         } while (!input.equalsIgnoreCase("OKAY"));
-    }
-
-    private void startGame() {
-        print("GAME STARTED");
     }
 
     private void print(String message) {
