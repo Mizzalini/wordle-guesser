@@ -19,28 +19,20 @@ public class UserInterface {
     }
 
     public int getNumberOfGuesses() {
-        int numberOfGuesses = 0;
-
         while (true) {
-            print("How many guesses have you made already?");
-            String input = scanner.nextLine().trim();
-            
-            try {
-                numberOfGuesses = Integer.parseInt(input);
+            print("How many guesses have you made already? (0–4)");
 
-                if (numberOfGuesses < 0 || numberOfGuesses > 4) {
-                    print("You must enter a valid number between 0 and 4 inclusive.");
-                    print("Please try again");
-                } else {
-                    break;
+            String input = scanner.nextLine().trim();
+            try {
+                int guesses = Integer.parseInt(input);
+                if (guesses >= 0 && guesses <= 4) {
+                    return guesses;
                 }
             } catch (NumberFormatException e) {
-                print("You must enter a valid number between 0 and 4 inclusive.");
-                print("Please try again");
+                // fall through to error message
             }
+            print("Invalid input. Enter a number between 0 and 4.");
         }
-
-        return numberOfGuesses;
     }
 
     public void print(String message) {
